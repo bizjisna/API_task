@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multiplication and Division API</title>
+</head>
+<body>
+    <h1>Multiplication and Division</h1>
+
+    <h2>Multiplication</h2>
+    <form id="multiplyForm">
+        <input type="text" id="num1" placeholder="Enter first number" required>
+        <input type="text" id="num2" placeholder="Enter second number" required>
+        <input type="text" id="num3" placeholder="Enter third number" required>
+        <button type="submit">Multiply</button>
+    </form>
+    <p id="multiplyResult"></p>
+
+    <h2>Division</h2>
+    <form id="divideForm">
+        <input type="text" id="num1Div" placeholder="Enter first number" required>
+        <input type="text" id="num2Div" placeholder="Enter second number" required>
+        <input type="text" id="num3Div" placeholder="Enter third number" required>
+        <button type="submit">Divide</button>
+    </form>
+    <p id="divideResult"></p>
+
+    <script>
+        document.getElementById('multiplyForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const num1 = document.getElementById('num1').value;
+            const num2 = document.getElementById('num2').value;
+            const num3 = document.getElementById('num3').value;
+
+            fetch('/multiply', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ num1, num2, num3 }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('multiplyResult').innerText = `Result: ${data.result}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+        document.getElementById('divideForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const num1 = document.getElementById('num1Div').value;
+            const num2 = document.getElementById('num2Div').value;
+            const num3 = document.getElementById('num3Div').value;
+
+            fetch('/divide', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ num1, num2, num3 }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('divideResult').innerText = `Result: ${data.result}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
